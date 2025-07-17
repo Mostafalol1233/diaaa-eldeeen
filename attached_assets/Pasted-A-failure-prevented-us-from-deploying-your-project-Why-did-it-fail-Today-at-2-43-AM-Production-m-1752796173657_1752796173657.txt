@@ -1,0 +1,92 @@
+A failure prevented us from deploying your project.
+Why did it fail?
+Today at 2:43 AM
+
+Production: main@HEAD
+
+Retry
+Deploy settings
+Delete deploy
+Fancy a game?
+This deploy is done, but hey, you can still play if you want to!
+
+Play game
+Deploy log
+Why did it fail?
+
+
+
+
+Maximize log
+Initializing
+Complete
+Building
+Failed
+2:44:09 AM: Netlify Build                                                 
+2:44:09 AM: ────────────────────────────────────────────────────────────────
+2:44:09 AM: ​
+2:44:09 AM: ❯ Version
+2:44:09 AM:   @netlify/build 34.2.5
+2:44:09 AM: ​
+2:44:09 AM: ❯ Flags
+2:44:09 AM:   accountId: 67af400f0481f020ffb84840
+2:44:09 AM:   baseRelDir: true
+2:44:09 AM:   buildId: 68798abb7d5552fbe150b8c2
+2:44:09 AM:   deployId: 68798abb7d5552fbe150b8c4
+2:44:09 AM: ​
+2:44:09 AM: ❯ Current directory
+2:44:09 AM:   /opt/build/repo
+2:44:09 AM: ​
+2:44:09 AM: ❯ Config file
+2:44:09 AM:   /opt/build/repo/netlify.toml
+2:44:09 AM: ​
+2:44:09 AM: ❯ Context
+2:44:09 AM:   production
+2:44:09 AM: ​
+2:44:09 AM: ❯ Installing extensions
+2:44:09 AM:    - neon
+2:44:56 AM: ​
+2:44:56 AM: ❯ Loading extensions
+2:44:56 AM:    - neon
+2:44:57 AM: ​
+2:44:57 AM: build.command from netlify.toml                               
+2:44:57 AM: ────────────────────────────────────────────────────────────────
+2:44:57 AM: ​
+2:44:57 AM: $ npm run build
+2:44:57 AM: > rest-express@1.0.0 build
+2:44:57 AM: > vite build && esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist
+2:44:57 AM: sh: 1: vite: not found
+2:44:58 AM: Failed during stage 'building site': Build script returned non-zero exit code: 2 (https://ntl.fyi/exit-code-2)
+2:44:58 AM: ​
+2:44:58 AM: "build.command" failed                                        
+2:44:58 AM: ────────────────────────────────────────────────────────────────
+2:44:58 AM: ​
+2:44:58 AM:   Error message
+2:44:58 AM:   Command failed with exit code 127: npm run build (https://ntl.fyi/exit-code-127)
+2:44:58 AM: ​
+2:44:58 AM:   Error location
+2:44:58 AM:   In build.command from netlify.toml:
+2:44:58 AM:   npm run build
+2:44:58 AM: ​
+2:44:58 AM:   Resolved config
+2:44:58 AM:   build:
+2:44:58 AM:     command: npm run build
+2:44:58 AM:     commandOrigin: config
+2:44:58 AM:     environment:
+2:44:58 AM:       - NODE_ENV
+2:44:58 AM:     publish: /opt/build/repo/dist/public
+2:44:58 AM:     publishOrigin: config
+2:44:58 AM:   functions:
+2:44:58 AM:     "*":
+2:44:58 AM:       node_bundler: esbuild
+2:44:58 AM:   functionsDirectory: /opt/build/repo/dist
+2:44:58 AM:   redirects:
+2:44:58 AM:     - from: /api/*
+      status: 200
+      to: /.netlify/functions/server/:splat
+    - from: /*
+      status: 200
+      to: /index.html
+  redirectsOrigin: config
+2:44:58 AM: Build failed due to a user error: Build script returned non-zero exit code: 2
+2:44:58 AM: Failing build: Failed to build site
