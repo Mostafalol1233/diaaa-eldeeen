@@ -1,0 +1,64 @@
+Build a full-featured and professional website for selling digital game cards online.
+
+Business Name: Diaa El Deen Sadek  
+WhatsApp Contact: 01011696196
+
+The platform should sell digital cards for games like:
+- CrossFire
+- Free Fire
+- PUBG
+
+💡 Website Requirements:
+
+1. 💻 Frontend:
+   - Modern and clean UI/UX, responsive across all devices.
+   - Hero section with a catchy headline: "Top-Up Your Favorite Game Instantly!"
+   - Fixed WhatsApp floating button for direct communication.
+   - Animated brand/payment logos sliding from right to left (use marquee or carousel).
+   - Sections:
+     - Featured Games (cards)
+     - Price Tables (dynamic, fetched from the database)
+     - Payment Methods (Vodafone Cash, Etisalat Cash, NBE — icons only, no gateways)
+     - Contact section
+
+2. 🗃️ Backend:
+   - Full database integration (Supabase / Firebase / MongoDB or simple JSON DB for local dev).
+   - Admin Panel with login authentication (username & password).
+   - Admin can:
+     - Add/Edit/Delete games
+     - Add/Edit/Delete card packages with pricing and bonuses
+     - Toggle availability
+   - Secure backend API to fetch prices and game data for the frontend.
+
+3. 📦 Example Card Pricing (CrossFire West):
+   - 5,000 Points (half bonus): EGP 120
+   - 10,000 Points (half bonus): EGP 240
+   - 20,000 Points (extra bonus): EGP 470
+   - 30,000 Points (special bonus): EGP 700
+
+4. ⚙️ Admin Dashboard Features:
+   - Login system (basic auth is fine)
+   - Dashboard to manage:
+     - Games
+     - Price entries
+     - Bonus info
+     - Payment method instructions
+   - UI built with a component library like Tailwind + ShadCN or Material UI
+
+5. 🔒 Security:
+   - Basic backend protection (rate limit, auth routes, etc.)
+   - Only admin can access dashboard
+
+6. 🚀 Deployment Ready:
+   - Make it deployable to Vercel (frontend) and Supabase/Firebase (backend)
+   - Provide clear structure for environment variables
+
+7. 🌐 SEO Meta Tags:
+   - Title: Buy Game Cards Online | Diaa El Deen Sadek
+   - Description: Buy prepaid CrossFire, Free Fire, and PUBG cards in Egypt with bonus deals, easy manual payments, and instant delivery.
+
+Technology stack preferred:
+- **Frontend**: Next.js + Tailwind CSS (or React if preferred)
+- **Backend**: Supabase (recommended) or Firebase or simple Express API
+- **Database**: Supabase PostgreSQL or Firebase Firestore
+- **Admin UI**: ShadCN UI, Chakra UI, or Tailwind components
