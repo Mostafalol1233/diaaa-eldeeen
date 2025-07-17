@@ -3,6 +3,9 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { GameWithCards } from "@shared/schema";
+import { getGameIcon } from "./game-images";
+import pubgImg from "@assets/image_1752790072998.png";
+import freeFireImg from "@assets/image_1752790125056.png";
 
 interface GameCardsProps {
   gameSlug: string;
@@ -63,10 +66,18 @@ export default function GameCards({ gameSlug }: GameCardsProps) {
               key={card.id} 
               className="bg-gaming-card hover:bg-gaming-card-hover transition-all duration-300 border-gaming-border transform hover:scale-105 overflow-hidden"
             >
-              <div className="h-48 bg-gaming-gradient flex items-center justify-center">
-                <div className="text-center">
-                  <div className="text-4xl mb-2">🎮</div>
-                  <div className="text-white font-bold text-lg">{game.name}</div>
+              <div className="h-48 bg-gaming-gradient flex items-center justify-center relative overflow-hidden">
+                {game.slug === 'pubg-mobile' ? (
+                  <img src={pubgImg} alt={game.name} className="w-full h-full object-cover" />
+                ) : game.slug === 'free-fire' ? (
+                  <img src={freeFireImg} alt={game.name} className="w-full h-full object-cover" />
+                ) : (
+                  <div className="w-24 h-24">
+                    {getGameIcon(game.slug)}
+                  </div>
+                )}
+                <div className="absolute bottom-0 left-0 right-0 bg-black/70 p-2">
+                  <div className="text-white font-bold text-lg text-center">{game.name}</div>
                 </div>
               </div>
               <CardContent className="p-6">
