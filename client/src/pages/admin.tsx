@@ -14,15 +14,15 @@ export default function Admin() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-dark-bg flex items-center justify-center">
-        <div className="text-white">Loading...</div>
+      <div className="min-h-screen bg-gaming-bg flex items-center justify-center">
+        <div className="text-gaming-text">Loading...</div>
       </div>
     );
   }
 
   if (!authData?.user) {
     return (
-      <div className="min-h-screen bg-dark-bg">
+      <div className="min-h-screen bg-gaming-bg">
         <AdminLogin 
           isOpen={true}
           onClose={() => setLocation("/")}

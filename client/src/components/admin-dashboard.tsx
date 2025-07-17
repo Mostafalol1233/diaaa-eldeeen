@@ -116,18 +116,18 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
   };
 
   return (
-    <div className="min-h-screen bg-dark-bg text-white">
+    <div className="min-h-screen bg-gaming-bg text-gaming-text">
       {/* Header */}
-      <header className="bg-card-bg border-b border-gray-700 py-4">
+      <header className="bg-gaming-nav border-b border-gaming-border py-4">
         <div className="max-w-7xl mx-auto px-4 flex justify-between items-center">
           <div>
             <h1 className="text-2xl font-bold">Admin Dashboard</h1>
-            <p className="text-gray-400">Welcome back, {user.email}</p>
+            <p className="text-gaming-text-secondary">Welcome back, {user.email}</p>
           </div>
           <Button
             onClick={() => logoutMutation.mutate()}
             variant="outline"
-            className="border-gray-600 text-white hover:bg-gray-700"
+            className="border-gaming-border text-gaming-text hover:bg-gaming-card-hover"
           >
             <LogOut size={16} className="mr-2" />
             Logout
@@ -137,7 +137,7 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
 
       <div className="max-w-7xl mx-auto px-4 py-8">
         <Tabs defaultValue="games" className="space-y-6">
-          <TabsList className="bg-card-bg border-gray-600">
+          <TabsList className="bg-gaming-card border-gaming-border">
             <TabsTrigger value="games" className="data-[state=active]:bg-gaming-accent">Games</TabsTrigger>
             <TabsTrigger value="comments" className="data-[state=active]:bg-gaming-accent">Comments</TabsTrigger>
           </TabsList>
@@ -152,7 +152,7 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
                     Add Game
                   </Button>
                 </DialogTrigger>
-                <DialogContent className="bg-card-bg border-gray-600 text-white">
+                <DialogContent className="bg-gaming-card border-gaming-border text-gaming-text">
                   <DialogHeader>
                     <DialogTitle>Add New Game</DialogTitle>
                   </DialogHeader>
@@ -163,7 +163,7 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
                         id="name"
                         value={gameForm.name}
                         onChange={(e) => setGameForm({ ...gameForm, name: e.target.value })}
-                        className="bg-gray-800 border-gray-600 text-white"
+                        className="bg-gaming-card-hover border-gaming-border text-gaming-text"
                       />
                     </div>
                     <div>
@@ -172,7 +172,7 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
                         id="slug"
                         value={gameForm.slug}
                         onChange={(e) => setGameForm({ ...gameForm, slug: e.target.value })}
-                        className="bg-gray-800 border-gray-600 text-white"
+                        className="bg-gaming-card-hover border-gaming-border text-gaming-text"
                       />
                     </div>
                     <div>
@@ -181,10 +181,10 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
                         id="description"
                         value={gameForm.description}
                         onChange={(e) => setGameForm({ ...gameForm, description: e.target.value })}
-                        className="bg-gray-800 border-gray-600 text-white"
+                        className="bg-gaming-card-hover border-gaming-border text-gaming-text"
                       />
                     </div>
-                    <Button type="submit" disabled={createGameMutation.isPending} className="bg-gaming-accent hover:bg-green-600">
+                    <Button type="submit" disabled={createGameMutation.isPending} className="bg-gaming-accent hover:bg-gaming-accent/90">
                       {createGameMutation.isPending ? "Creating..." : "Create Game"}
                     </Button>
                   </form>
@@ -194,13 +194,13 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
 
             <div className="grid gap-4">
               {games.map((game) => (
-                <Card key={game.id} className="bg-card-bg border-gray-600">
+                <Card key={game.id} className="bg-gaming-card border-gaming-border">
                   <CardHeader>
                     <div className="flex justify-between items-start">
                       <div>
-                        <CardTitle className="text-white">{game.name}</CardTitle>
-                        <p className="text-gray-400 text-sm">Slug: {game.slug}</p>
-                        {game.description && <p className="text-gray-300 mt-2">{game.description}</p>}
+                        <CardTitle className="text-gaming-text">{game.name}</CardTitle>
+                        <p className="text-gaming-text-secondary text-sm">Slug: {game.slug}</p>
+                        {game.description && <p className="text-gaming-text-secondary mt-2">{game.description}</p>}
                       </div>
                       <Badge variant={game.isActive ? "default" : "secondary"}>
                         {game.isActive ? "Active" : "Inactive"}
@@ -217,12 +217,12 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
             
             <div className="grid gap-4">
               {comments.map((comment) => (
-                <Card key={comment.id} className="bg-card-bg border-gray-600">
+                <Card key={comment.id} className="bg-gaming-card border-gaming-border">
                   <CardContent className="p-6">
                     <div className="flex justify-between items-start mb-4">
                       <div className="flex-1">
                         <div className="flex items-center space-x-2 mb-2">
-                          <h4 className="font-semibold text-white">{comment.name}</h4>
+                          <h4 className="font-semibold text-gaming-text">{comment.name}</h4>
                           <div className="flex">
                             {Array.from({ length: comment.rating }, (_, i) => (
                               <span key={i} className="text-yellow-400">⭐</span>
@@ -232,8 +232,8 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
                             {comment.isApproved ? "Approved" : "Pending"}
                           </Badge>
                         </div>
-                        <p className="text-gray-300">{comment.comment}</p>
-                        <p className="text-gray-500 text-sm mt-2">
+                        <p className="text-gaming-text-secondary">{comment.comment}</p>
+                        <p className="text-gaming-text-secondary/60 text-sm mt-2">
                           {new Date(comment.createdAt).toLocaleDateString()}
                         </p>
                       </div>

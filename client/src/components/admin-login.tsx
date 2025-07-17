@@ -61,7 +61,7 @@ export default function AdminLogin({ isOpen, onClose, redirectOnSuccess = true }
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="bg-card-bg border-gray-600 text-white max-w-md">
+      <DialogContent className="bg-gaming-card border-gaming-border text-gaming-text max-w-md">
         <DialogHeader>
           <div className="flex justify-between items-center">
             <DialogTitle className="text-2xl font-bold">Admin Login</DialogTitle>
@@ -69,7 +69,7 @@ export default function AdminLogin({ isOpen, onClose, redirectOnSuccess = true }
               variant="ghost"
               size="icon"
               onClick={onClose}
-              className="text-gray-400 hover:text-white"
+              className="text-gaming-text-secondary hover:text-gaming-text"
             >
               <X size={20} />
             </Button>
@@ -78,33 +78,33 @@ export default function AdminLogin({ isOpen, onClose, redirectOnSuccess = true }
         
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="email" className="text-gray-300">Email</Label>
+            <Label htmlFor="email" className="text-gaming-text-secondary">Email</Label>
             <Input
               id="email"
               type="email"
               placeholder="admin@example.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="bg-gray-800 border-gray-600 text-white focus:ring-gaming-accent"
+              className="bg-gaming-card-hover border-gaming-border text-gaming-text focus:ring-gaming-accent"
             />
           </div>
           
           <div className="space-y-2">
-            <Label htmlFor="password" className="text-gray-300">Password</Label>
+            <Label htmlFor="password" className="text-gaming-text-secondary">Password</Label>
             <Input
               id="password"
               type="password"
               placeholder="••••••••"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="bg-gray-800 border-gray-600 text-white focus:ring-gaming-accent"
+              className="bg-gaming-card-hover border-gaming-border text-gaming-text focus:ring-gaming-accent"
             />
           </div>
           
           <Button 
             type="submit" 
             disabled={loginMutation.isPending}
-            className="w-full bg-gaming-accent hover:bg-green-600 text-white"
+            className="w-full bg-gaming-accent hover:bg-gaming-accent/90 text-white"
           >
             {loginMutation.isPending ? "Logging in..." : "Login"}
           </Button>

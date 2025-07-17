@@ -67,23 +67,23 @@ export default function CommentsSection() {
   };
 
   return (
-    <section className="bg-gray-900 py-16">
+    <section className="bg-gaming-card py-16">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <h3 className="text-3xl font-bold text-white mb-4">What Our Customers Say</h3>
-          <p className="text-gray-300">Read reviews from satisfied gamers</p>
+          <h3 className="text-3xl font-bold text-gaming-text mb-4">What Our Customers Say</h3>
+          <p className="text-gaming-text-secondary">Read reviews from satisfied gamers</p>
         </div>
         
         <div className="space-y-6 mb-8">
           {comments.length === 0 ? (
-            <Card className="bg-card-bg border-gray-600">
+            <Card className="bg-gaming-card border-gaming-border">
               <CardContent className="p-6 text-center">
-                <p className="text-gray-300">No reviews yet. Be the first to leave a review!</p>
+                <p className="text-gaming-text-secondary">No reviews yet. Be the first to leave a review!</p>
               </CardContent>
             </Card>
           ) : (
             comments.map((review) => (
-              <Card key={review.id} className="bg-card-bg border-gray-600">
+              <Card key={review.id} className="bg-gaming-card border-gaming-border">
                 <CardContent className="p-6">
                   <div className="flex items-start space-x-4">
                     <div className="bg-gaming-accent w-12 h-12 rounded-full flex items-center justify-center">
@@ -91,13 +91,13 @@ export default function CommentsSection() {
                     </div>
                     <div className="flex-1">
                       <div className="flex items-center space-x-2 mb-2">
-                        <h4 className="font-semibold text-white">{review.name}</h4>
+                        <h4 className="font-semibold text-gaming-text">{review.name}</h4>
                         <div className="flex">
                           {renderStars(review.rating)}
                         </div>
                       </div>
-                      <p className="text-gray-300">{review.comment}</p>
-                      <p className="text-gray-500 text-sm mt-2">
+                      <p className="text-gaming-text-secondary">{review.comment}</p>
+                      <p className="text-gaming-text-secondary/60 text-sm mt-2">
                         {new Date(review.createdAt).toLocaleDateString()}
                       </p>
                     </div>
@@ -109,27 +109,27 @@ export default function CommentsSection() {
         </div>
         
         {/* Add Comment Form */}
-        <Card className="bg-card-bg border-gray-600">
+        <Card className="bg-gaming-card border-gaming-border">
           <CardContent className="p-6">
-            <h4 className="text-xl font-semibold text-white mb-4">Leave a Review</h4>
+            <h4 className="text-xl font-semibold text-gaming-text mb-4">Leave a Review</h4>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <Input
                   placeholder="Your Name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="bg-gray-800 border-gray-600 text-white focus:ring-gaming-accent"
+                  className="bg-gaming-card-hover border-gaming-border text-gaming-text focus:ring-gaming-accent"
                 />
                 <Select value={rating} onValueChange={setRating}>
-                  <SelectTrigger className="bg-gray-800 border-gray-600 text-white focus:ring-gaming-accent">
+                  <SelectTrigger className="bg-gaming-card-hover border-gaming-border text-gaming-text focus:ring-gaming-accent">
                     <SelectValue placeholder="Rating" />
                   </SelectTrigger>
-                  <SelectContent className="bg-gray-800 border-gray-600">
-                    <SelectItem value="5" className="text-white hover:bg-gray-700">5 Stars</SelectItem>
-                    <SelectItem value="4" className="text-white hover:bg-gray-700">4 Stars</SelectItem>
-                    <SelectItem value="3" className="text-white hover:bg-gray-700">3 Stars</SelectItem>
-                    <SelectItem value="2" className="text-white hover:bg-gray-700">2 Stars</SelectItem>
-                    <SelectItem value="1" className="text-white hover:bg-gray-700">1 Star</SelectItem>
+                  <SelectContent className="bg-gaming-card border-gaming-border">
+                    <SelectItem value="5" className="text-gaming-text hover:bg-gaming-card-hover">5 Stars</SelectItem>
+                    <SelectItem value="4" className="text-gaming-text hover:bg-gaming-card-hover">4 Stars</SelectItem>
+                    <SelectItem value="3" className="text-gaming-text hover:bg-gaming-card-hover">3 Stars</SelectItem>
+                    <SelectItem value="2" className="text-gaming-text hover:bg-gaming-card-hover">2 Stars</SelectItem>
+                    <SelectItem value="1" className="text-gaming-text hover:bg-gaming-card-hover">1 Star</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -138,12 +138,12 @@ export default function CommentsSection() {
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
                 rows={4}
-                className="bg-gray-800 border-gray-600 text-white focus:ring-gaming-accent resize-none"
+                className="bg-gaming-card-hover border-gaming-border text-gaming-text focus:ring-gaming-accent resize-none"
               />
               <Button 
                 type="submit" 
                 disabled={submitComment.isPending}
-                className="bg-gaming-accent hover:bg-green-600 text-white"
+                className="bg-gaming-accent hover:bg-gaming-accent/90 text-white"
               >
                 {submitComment.isPending ? "Submitting..." : "Submit Review"}
               </Button>
