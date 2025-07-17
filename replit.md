@@ -8,6 +8,18 @@ This is a full-featured e-commerce platform for selling digital game cards onlin
 
 Preferred communication style: Simple, everyday language.
 
+## Recent Changes
+
+### July 17, 2025 - Database and Authentication Fixes
+- ✓ Fixed database connection issues and created PostgreSQL database
+- ✓ Added express-session middleware for proper session management
+- ✓ Created admin user with credentials: admin / admin123
+- ✓ Fixed login validation to accept "admin" as username (not requiring email format)
+- ✓ Made payment methods animation infinite and smooth (30s cycle, seamless loop)
+- ✓ Added sample games: CrossFire, Free Fire, PUBG Mobile with pricing tiers
+- ✓ Added customer reviews for realistic content
+- ✓ Admin dashboard now fully functional with login/logout
+
 ## System Architecture
 
 ### Frontend Architecture

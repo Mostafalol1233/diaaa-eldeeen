@@ -6,7 +6,7 @@ import { insertUserSchema, insertGameSchema, insertGameCardSchema, insertComment
 import { z } from "zod";
 
 const loginSchema = z.object({
-  email: z.string().email(),
+  email: z.string().min(1), // Allow "admin" as username, not requiring email format
   password: z.string().min(1),
 });
 

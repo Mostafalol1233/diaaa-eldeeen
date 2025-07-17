@@ -27,12 +27,13 @@ export default function PaymentMethods() {
           <p className="text-gaming-text-secondary">Choose your preferred payment method</p>
         </div>
         
-        {/* Sliding animation container */}
+        {/* Infinite sliding animation container */}
         <div className="overflow-hidden relative">
-          <div className="flex animate-slide-right whitespace-nowrap">
-            {[...paymentMethods, ...paymentMethods].map((method, index) => (
+          <div className="flex animate-slide-right">
+            {/* Duplicate methods 4 times for seamless infinite loop */}
+            {[...paymentMethods, ...paymentMethods, ...paymentMethods, ...paymentMethods].map((method, index) => (
               <div 
-                key={index}
+                key={`right-${index}`}
                 className="bg-gaming-card border border-gaming-border rounded-lg p-4 text-center hover:bg-gaming-card-hover transition-colors mx-3 min-w-[120px] flex-shrink-0"
               >
                 <div className={`w-12 h-12 mx-auto mb-3 rounded-lg ${method.bgColor} flex items-center justify-center p-2`}>
@@ -48,12 +49,13 @@ export default function PaymentMethods() {
           </div>
         </div>
         
-        {/* Reverse sliding animation */}
+        {/* Reverse infinite sliding animation */}
         <div className="overflow-hidden relative mt-8">
-          <div className="flex animate-slide-left whitespace-nowrap">
-            {[...paymentMethods.slice().reverse(), ...paymentMethods.slice().reverse()].map((method, index) => (
+          <div className="flex animate-slide-left">
+            {/* Duplicate reversed methods 4 times for seamless infinite loop */}
+            {[...paymentMethods.slice().reverse(), ...paymentMethods.slice().reverse(), ...paymentMethods.slice().reverse(), ...paymentMethods.slice().reverse()].map((method, index) => (
               <div 
-                key={index}
+                key={`left-${index}`}
                 className="bg-gaming-card border border-gaming-border rounded-lg p-4 text-center hover:bg-gaming-card-hover transition-colors mx-3 min-w-[120px] flex-shrink-0"
               >
                 <div className={`w-12 h-12 mx-auto mb-3 rounded-lg ${method.bgColor} flex items-center justify-center p-2`}>
