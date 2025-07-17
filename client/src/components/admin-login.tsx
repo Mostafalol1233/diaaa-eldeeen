@@ -51,7 +51,7 @@ export default function AdminLogin({ isOpen, onClose, redirectOnSuccess = true }
     if (!email || !password) {
       toast({
         title: "Missing Fields",
-        description: "Please enter both email and password.",
+        description: "Please enter both username and password.",
         variant: "destructive",
       });
       return;
@@ -74,15 +74,22 @@ export default function AdminLogin({ isOpen, onClose, redirectOnSuccess = true }
               <X size={20} />
             </Button>
           </div>
+          <div className="bg-gaming-card-hover border border-gaming-border rounded-lg p-3 mt-3">
+            <p className="text-sm text-gaming-text-secondary">
+              <span className="text-gaming-accent font-medium">Default credentials:</span><br/>
+              Username: <span className="text-gaming-text font-mono">admin</span><br/>
+              Password: <span className="text-gaming-text font-mono">admin123</span>
+            </p>
+          </div>
         </DialogHeader>
         
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="email" className="text-gaming-text-secondary">Email</Label>
+            <Label htmlFor="email" className="text-gaming-text-secondary">Username</Label>
             <Input
               id="email"
-              type="email"
-              placeholder="admin@example.com"
+              type="text"
+              placeholder="admin"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="bg-gaming-card-hover border-gaming-border text-gaming-text focus:ring-gaming-accent"

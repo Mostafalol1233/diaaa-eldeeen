@@ -54,9 +54,10 @@ export default function Home() {
                 <ThemeToggle />
                 <Button 
                   onClick={() => setShowAdminLogin(true)}
-                  className="bg-gaming-accent hover:bg-gaming-accent/90 text-white"
+                  className="bg-gaming-accent hover:bg-gaming-accent/90 text-white text-sm px-4 py-2"
+                  title="Admin Login - Username: admin, Password: admin123"
                 >
-                  Admin
+                  🔐 Admin Panel
                 </Button>
               </div>
             </div>
