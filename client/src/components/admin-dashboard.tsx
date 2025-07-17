@@ -13,6 +13,7 @@ import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { LogOut, Plus, Edit, Trash2, Check, X } from "lucide-react";
 import type { User, Game, Comment } from "@shared/schema";
+import GameCardsManager from "@/components/game-cards-manager";
 
 interface AdminDashboardProps {
   user: User;
@@ -38,12 +39,18 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
     price: 0,
   });
 
+  // Edit states
+  const [editingCard, setEditingCard] = useState<any>(null);
+  const [editingGame, setEditingGame] = useState<any>(null);
+
   const [showGameDialog, setShowGameDialog] = useState(false);
   const [showCardDialog, setShowCardDialog] = useState(false);
+  const [showEditCardDialog, setShowEditCardDialog] = useState(false);
+  const [showEditGameDialog, setShowEditGameDialog] = useState(false);
 
   // Queries
   const { data: games = [] } = useQuery<Game[]>({
-    queryKey: ["/api/games"],
+    queryKey: ["/api/admin/games"],
   });
 
   const { data: comments = [] } = useQuery<Comment[]>({
@@ -62,6 +69,7 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
   const createGameMutation = useMutation({
     mutationFn: (data: typeof gameForm) => apiRequest("POST", "/api/admin/games", data),
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/games"] });
       queryClient.invalidateQueries({ queryKey: ["/api/games"] });
       setGameForm({ name: "", slug: "", description: "" });
       setShowGameDialog(false);
@@ -72,6 +80,7 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
   const createCardMutation = useMutation({
     mutationFn: (data: typeof cardForm) => apiRequest("POST", `/api/admin/games/${data.gameId}/cards`, data),
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/games"] });
       queryClient.invalidateQueries({ queryKey: ["/api/games"] });
       setCardForm({ gameId: 0, points: "", bonus: "", price: 0 });
       setShowCardDialog(false);
@@ -94,6 +103,46 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/comments"] });
       queryClient.invalidateQueries({ queryKey: ["/api/comments"] });
       toast({ title: "Comment deleted" });
+    },
+  });
+
+  const updateGameMutation = useMutation({
+    mutationFn: (data: { id: number; game: any }) => apiRequest("PATCH", `/api/admin/games/${data.id}`, data.game),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/games"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/games"] });
+      setEditingGame(null);
+      setShowEditGameDialog(false);
+      toast({ title: "Game updated successfully" });
+    },
+  });
+
+  const updateCardMutation = useMutation({
+    mutationFn: (data: { id: number; card: any }) => apiRequest("PATCH", `/api/admin/cards/${data.id}`, data.card),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/games"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/games"] });
+      setEditingCard(null);
+      setShowEditCardDialog(false);
+      toast({ title: "Card updated successfully" });
+    },
+  });
+
+  const deleteGameMutation = useMutation({
+    mutationFn: (id: number) => apiRequest("DELETE", `/api/admin/games/${id}`, {}),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/games"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/games"] });
+      toast({ title: "Game deleted" });
+    },
+  });
+
+  const deleteCardMutation = useMutation({
+    mutationFn: (id: number) => apiRequest("DELETE", `/api/admin/cards/${id}`, {}),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/games"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/games"] });
+      toast({ title: "Card deleted" });
     },
   });
 
@@ -196,20 +245,243 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
               {games.map((game) => (
                 <Card key={game.id} className="bg-gaming-card border-gaming-border">
                   <CardHeader>
-                    <div className="flex justify-between items-start">
+                    <div className="flex justify-between items-start mb-4">
                       <div>
                         <CardTitle className="text-gaming-text">{game.name}</CardTitle>
                         <p className="text-gaming-text-secondary text-sm">Slug: {game.slug}</p>
                         {game.description && <p className="text-gaming-text-secondary mt-2">{game.description}</p>}
                       </div>
-                      <Badge variant={game.isActive ? "default" : "secondary"}>
-                        {game.isActive ? "Active" : "Inactive"}
-                      </Badge>
+                      <div className="flex items-center space-x-2">
+                        <Badge variant={game.isActive ? "default" : "secondary"}>
+                          {game.isActive ? "Active" : "Inactive"}
+                        </Badge>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => {
+                            setEditingGame(game);
+                            setShowEditGameDialog(true);
+                          }}
+                          className="border-gaming-border"
+                        >
+                          <Edit size={14} />
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="destructive"
+                          onClick={() => deleteGameMutation.mutate(game.id)}
+                        >
+                          <Trash2 size={14} />
+                        </Button>
+                      </div>
+                    </div>
+                    
+                    {/* Game Cards Section */}
+                    <div className="space-y-4">
+                      <div className="flex justify-between items-center">
+                        <h4 className="text-lg font-medium text-gaming-text">Game Cards</h4>
+                        <Button
+                          size="sm"
+                          onClick={() => {
+                            setCardForm({ gameId: game.id, points: "", bonus: "", price: 0 });
+                            setShowCardDialog(true);
+                          }}
+                          className="bg-gaming-accent hover:bg-gaming-accent/90"
+                        >
+                          <Plus size={14} className="mr-1" />
+                          Add Card
+                        </Button>
+                      </div>
+                      
+                      <div className="grid gap-2">
+                        {/* Show game cards here */}
+                        <GameCardsManager 
+                          gameId={game.id} 
+                          onEditCard={(card) => {
+                            setEditingCard(card);
+                            setShowEditCardDialog(true);
+                          }} 
+                          onDeleteCard={(id) => deleteCardMutation.mutate(id)} 
+                        />
+                      </div>
                     </div>
                   </CardHeader>
                 </Card>
               ))}
             </div>
+
+            {/* Add Card Dialog */}
+            <Dialog open={showCardDialog} onOpenChange={setShowCardDialog}>
+              <DialogContent className="bg-gaming-card border-gaming-border text-gaming-text">
+                <DialogHeader>
+                  <DialogTitle>Add New Card</DialogTitle>
+                </DialogHeader>
+                <form onSubmit={handleCreateCard} className="space-y-4">
+                  <div>
+                    <Label htmlFor="cardPoints">Points</Label>
+                    <Input
+                      id="cardPoints"
+                      value={cardForm.points}
+                      onChange={(e) => setCardForm({ ...cardForm, points: e.target.value })}
+                      className="bg-gaming-card-hover border-gaming-border text-gaming-text"
+                      placeholder="e.g., 180 + 18"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="cardBonus">Bonus (optional)</Label>
+                    <Input
+                      id="cardBonus"
+                      value={cardForm.bonus}
+                      onChange={(e) => setCardForm({ ...cardForm, bonus: e.target.value })}
+                      className="bg-gaming-card-hover border-gaming-border text-gaming-text"
+                      placeholder="e.g., Exclusive skin"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="cardPrice">Price (EGP)</Label>
+                    <Input
+                      id="cardPrice"
+                      type="number"
+                      value={cardForm.price}
+                      onChange={(e) => setCardForm({ ...cardForm, price: parseFloat(e.target.value) || 0 })}
+                      className="bg-gaming-card-hover border-gaming-border text-gaming-text"
+                    />
+                  </div>
+                  <Button type="submit" disabled={createCardMutation.isPending} className="bg-gaming-accent hover:bg-gaming-accent/90">
+                    {createCardMutation.isPending ? "Creating..." : "Create Card"}
+                  </Button>
+                </form>
+              </DialogContent>
+            </Dialog>
+
+            {/* Edit Card Dialog */}
+            <Dialog open={showEditCardDialog} onOpenChange={setShowEditCardDialog}>
+              <DialogContent className="bg-gaming-card border-gaming-border text-gaming-text">
+                <DialogHeader>
+                  <DialogTitle>Edit Card</DialogTitle>
+                </DialogHeader>
+                {editingCard && (
+                  <form onSubmit={(e) => {
+                    e.preventDefault();
+                    updateCardMutation.mutate({
+                      id: editingCard.id,
+                      card: {
+                        points: editingCard.points,
+                        bonus: editingCard.bonus,
+                        price: editingCard.price,
+                        isActive: editingCard.isActive
+                      }
+                    });
+                  }} className="space-y-4">
+                    <div>
+                      <Label htmlFor="editCardPoints">Points</Label>
+                      <Input
+                        id="editCardPoints"
+                        value={editingCard.points}
+                        onChange={(e) => setEditingCard({ ...editingCard, points: e.target.value })}
+                        className="bg-gaming-card-hover border-gaming-border text-gaming-text"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="editCardBonus">Bonus (optional)</Label>
+                      <Input
+                        id="editCardBonus"
+                        value={editingCard.bonus || ""}
+                        onChange={(e) => setEditingCard({ ...editingCard, bonus: e.target.value })}
+                        className="bg-gaming-card-hover border-gaming-border text-gaming-text"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="editCardPrice">Price (EGP)</Label>
+                      <Input
+                        id="editCardPrice"
+                        type="number"
+                        value={editingCard.price}
+                        onChange={(e) => setEditingCard({ ...editingCard, price: parseFloat(e.target.value) || 0 })}
+                        className="bg-gaming-card-hover border-gaming-border text-gaming-text"
+                      />
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <input
+                        type="checkbox"
+                        id="editCardActive"
+                        checked={editingCard.isActive}
+                        onChange={(e) => setEditingCard({ ...editingCard, isActive: e.target.checked })}
+                        className="rounded border-gaming-border"
+                      />
+                      <Label htmlFor="editCardActive">Active</Label>
+                    </div>
+                    <Button type="submit" disabled={updateCardMutation.isPending} className="bg-gaming-accent hover:bg-gaming-accent/90">
+                      {updateCardMutation.isPending ? "Updating..." : "Update Card"}
+                    </Button>
+                  </form>
+                )}
+              </DialogContent>
+            </Dialog>
+
+            {/* Edit Game Dialog */}
+            <Dialog open={showEditGameDialog} onOpenChange={setShowEditGameDialog}>
+              <DialogContent className="bg-gaming-card border-gaming-border text-gaming-text">
+                <DialogHeader>
+                  <DialogTitle>Edit Game</DialogTitle>
+                </DialogHeader>
+                {editingGame && (
+                  <form onSubmit={(e) => {
+                    e.preventDefault();
+                    updateGameMutation.mutate({
+                      id: editingGame.id,
+                      game: {
+                        name: editingGame.name,
+                        slug: editingGame.slug,
+                        description: editingGame.description,
+                        isActive: editingGame.isActive
+                      }
+                    });
+                  }} className="space-y-4">
+                    <div>
+                      <Label htmlFor="editGameName">Game Name</Label>
+                      <Input
+                        id="editGameName"
+                        value={editingGame.name}
+                        onChange={(e) => setEditingGame({ ...editingGame, name: e.target.value })}
+                        className="bg-gaming-card-hover border-gaming-border text-gaming-text"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="editGameSlug">Slug</Label>
+                      <Input
+                        id="editGameSlug"
+                        value={editingGame.slug}
+                        onChange={(e) => setEditingGame({ ...editingGame, slug: e.target.value })}
+                        className="bg-gaming-card-hover border-gaming-border text-gaming-text"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="editGameDescription">Description</Label>
+                      <Textarea
+                        id="editGameDescription"
+                        value={editingGame.description || ""}
+                        onChange={(e) => setEditingGame({ ...editingGame, description: e.target.value })}
+                        className="bg-gaming-card-hover border-gaming-border text-gaming-text"
+                      />
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <input
+                        type="checkbox"
+                        id="editGameActive"
+                        checked={editingGame.isActive}
+                        onChange={(e) => setEditingGame({ ...editingGame, isActive: e.target.checked })}
+                        className="rounded border-gaming-border"
+                      />
+                      <Label htmlFor="editGameActive">Active</Label>
+                    </div>
+                    <Button type="submit" disabled={updateGameMutation.isPending} className="bg-gaming-accent hover:bg-gaming-accent/90">
+                      {updateGameMutation.isPending ? "Updating..." : "Update Game"}
+                    </Button>
+                  </form>
+                )}
+              </DialogContent>
+            </Dialog>
           </TabsContent>
 
           <TabsContent value="comments" className="space-y-6">

@@ -6,6 +6,7 @@ import type { GameWithCards } from "@shared/schema";
 import { getGameIcon } from "./game-images";
 import pubgImg from "@assets/image_1752790072998.png";
 import freeFireImg from "@assets/image_1752790125056.png";
+import crossfireImg from "@assets/image_1752794987781.png";
 
 interface GameCardsProps {
   gameSlug: string;
@@ -67,7 +68,9 @@ export default function GameCards({ gameSlug }: GameCardsProps) {
               className="bg-gaming-card hover:bg-gaming-card-hover transition-all duration-300 border-gaming-border transform hover:scale-105 overflow-hidden"
             >
               <div className="h-48 bg-gaming-gradient flex items-center justify-center relative overflow-hidden">
-                {game.slug === 'pubg-mobile' ? (
+                {game.slug === 'crossfire' ? (
+                  <img src={crossfireImg} alt={game.name} className="w-full h-full object-cover" />
+                ) : game.slug === 'pubg-mobile' ? (
                   <img src={pubgImg} alt={game.name} className="w-full h-full object-cover" />
                 ) : game.slug === 'free-fire' ? (
                   <img src={freeFireImg} alt={game.name} className="w-full h-full object-cover" />

@@ -16,6 +16,7 @@ export interface IStorage {
 
   // Game methods
   getGames(): Promise<Game[]>;
+  getAllGames(): Promise<Game[]>; // For admin - includes inactive games
   getGame(id: number): Promise<Game | undefined>;
   getGameBySlug(slug: string): Promise<Game | undefined>;
   getGameWithCards(slug: string): Promise<GameWithCards | undefined>;
@@ -60,6 +61,10 @@ export class DatabaseStorage implements IStorage {
   // Game methods
   async getGames(): Promise<Game[]> {
     return await db.select().from(games).where(eq(games.isActive, true)).orderBy(games.name);
+  }
+
+  async getAllGames(): Promise<Game[]> {
+    return await db.select().from(games).orderBy(games.name);
   }
 
   async getGame(id: number): Promise<Game | undefined> {
